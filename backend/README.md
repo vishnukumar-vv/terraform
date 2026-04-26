@@ -11,7 +11,7 @@ cd backend
 terraform init
 terraform apply -var-file=dev.tfvars
 ```
-
+#ok
 2. Configure the environment to use the created bucket. Edit `environments/dev/main.tf` and enable the `backend "s3"` block. Example values:
 
 - `bucket`: the bucket created by this module (the resource name is `aws_s3_bucket.terraform_state`; its name is `terraform-state-<environment>-<account_id>`)

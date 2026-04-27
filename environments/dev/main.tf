@@ -8,13 +8,13 @@ terraform {
   }
 
   # Uncomment below to use S3 backend for state management
-   backend "s3" {
-     bucket         = "terraform-state-dev-038208944683"
-     key            = "dev/ec2/terraform.tfstate"
-     region         = "us-east-1"
-     encrypt        = true
-     dynamodb_table = "terraform-locks-dev"
-   }
+  backend "s3" {
+    bucket         = "terraform-state-dev-038208944683"
+    key            = "dev/ec2/terraform.tfstate"
+    region         = "us-east-1"
+    encrypt        = true
+    dynamodb_table = "terraform-locks-dev"
+  }
 }
 
 provider "aws" {
@@ -28,6 +28,8 @@ provider "aws" {
     }
   }
 }
+
+data "aws_caller_identity" "current" {}
 
 # Call the EC2 child module
 module "ec2" {
@@ -48,4 +50,16 @@ module "ec2" {
   enable_ebs_encryption = var.enable_ebs_encryption
   enable_monitoring     = var.enable_monitoring
   common_tags           = var.common_tags
+}
+
+module "s3_static_file" {
+  source = "../../modules/s3_static_file"
+
+  bucket_name       = coalesce(var.static_file_bucket_name, "statfile-${var.environment}-${data.aws_caller_identity.current.account_id}")
+  object_key        = var.static_file_object_key
+  file_path         = "${path.module}/static/statfile.txt"
+  content_type      = "text/plain"
+  enable_versioning = true
+  force_destroy     = var.static_file_force_destroy
+  common_tags       = var.common_tags
 }

@@ -85,3 +85,21 @@ variable "common_tags" {
     Terraform = "true"
   }
 }
+
+variable "static_file_bucket_name" {
+  description = "Optional globally unique bucket name for the static file bucket. If null, Terraform builds one from environment and AWS account ID."
+  type        = string
+  default     = null
+}
+
+variable "static_file_object_key" {
+  description = "S3 object key for the static file."
+  type        = string
+  default     = "statfile.txt"
+}
+
+variable "static_file_force_destroy" {
+  description = "Allow Terraform to delete the static file bucket even when it contains objects."
+  type        = bool
+  default     = false
+}

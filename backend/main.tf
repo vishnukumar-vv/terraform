@@ -1,15 +1,4 @@
 terraform {
-  backend "s3" {
-    # Set this to your real S3 bucket that will hold Terraform state.
-    # Note: replace the example bucket name below before running `terraform init`.
-    bucket         = "terraform-state-example-bucket"
-    # Use workspace-aware key so each workspace gets its own state file
-    key            = "envs/${terraform.workspace}/terraform.tfstate"
-    region         = "us-east-1"
-    dynamodb_table = "terraform-locks"
-    encrypt        = true
-  }
-
   required_version = ">= 1.0"
   required_providers {
     aws = {
@@ -25,7 +14,7 @@ provider "aws" {
 
 # Create S3 bucket for Terraform state
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "terraform-state-${var.environment}-${data.aws_caller_identity.current.account_id}"
+  bucket = "terraform-state-dev-038208944683"
 
   # Allow Terraform to delete all objects (including versions) when destroying the bucket
   force_destroy = true
@@ -78,9 +67,9 @@ resource "aws_s3_bucket_logging" "terraform_state" {
 
 # Create DynamoDB table for state locking
 resource "aws_dynamodb_table" "terraform_locks" {
-  name           = "terraform-locks-${var.environment}"
-  billing_mode   = "PAY_PER_REQUEST"
-  hash_key       = "LockID"
+  name         = "terraform-locks-${var.environment}"
+  billing_mode = "PAY_PER_REQUEST"
+  hash_key     = "LockID"
 
   attribute {
     name = "LockID"

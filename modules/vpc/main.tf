@@ -57,10 +57,10 @@ resource "aws_subnet" "public" {
 
 # Create private subnets
 resource "aws_subnet" "private" {
-  count              = length(var.private_subnet_cidrs)
-  vpc_id             = aws_vpc.main.id
-  cidr_block         = var.private_subnet_cidrs[count.index]
-  availability_zone  = data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.names)]
+  count             = length(var.private_subnet_cidrs)
+  vpc_id            = aws_vpc.main.id
+  cidr_block        = var.private_subnet_cidrs[count.index]
+  availability_zone = data.aws_availability_zones.available.names[count.index % length(data.aws_availability_zones.available.names)]
 
   tags = merge(
     var.common_tags,
@@ -112,8 +112,8 @@ resource "aws_route_table" "public" {
   vpc_id = aws_vpc.main.id
 
   route {
-    cidr_block      = "0.0.0.0/0"
-    gateway_id      = aws_internet_gateway.main.id
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.main.id
   }
 
   tags = merge(
@@ -161,11 +161,11 @@ resource "aws_route_table_association" "private" {
 
 # Create VPC Flow Logs (optional)
 resource "aws_flow_log" "main" {
-  count                   = var.enable_flow_logs ? 1 : 0
-  iam_role_arn            = aws_iam_role.vpc_flow_logs[0].arn
-  log_destination         = aws_cloudwatch_log_group.vpc_flow_logs[0].arn
-  traffic_type            = "ALL"
-  vpc_id                  = aws_vpc.main.id
+  count           = var.enable_flow_logs ? 1 : 0
+  iam_role_arn    = aws_iam_role.vpc_flow_logs[0].arn
+  log_destination = aws_cloudwatch_log_group.vpc_flow_logs[0].arn
+  traffic_type    = "ALL"
+  vpc_id          = aws_vpc.main.id
 
   tags = merge(
     var.common_tags,

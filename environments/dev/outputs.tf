@@ -22,3 +22,18 @@ output "ami_id" {
   description = "AMI ID used"
   value       = module.ec2.ami_id
 }
+
+output "static_file_bucket_name" {
+  description = "Name of the S3 bucket containing the static file"
+  value       = module.s3_static_file.bucket_name
+}
+
+output "static_file_bucket_arn" {
+  description = "ARN of the S3 bucket containing the static file"
+  value       = module.s3_static_file.bucket_arn
+}
+
+output "static_file_object_key" {
+  description = "S3 object key for the uploaded static file"
+  value       = module.s3_static_file.object_key
+}

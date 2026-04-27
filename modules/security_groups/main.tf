@@ -172,12 +172,12 @@ resource "aws_vpc_security_group_ingress_rule" "alb_https" {
 
 # ALB - Egress to EC2
 resource "aws_vpc_security_group_egress_rule" "alb_to_ec2" {
-  count                    = var.enable_alb_sg ? 1 : 0
-  security_group_id        = aws_security_group.alb[0].id
-  description              = "Allow ALB to communicate with EC2 instances"
-  from_port                = 0
-  to_port                  = 65535
-  ip_protocol              = "tcp"
+  count                        = var.enable_alb_sg ? 1 : 0
+  security_group_id            = aws_security_group.alb[0].id
+  description                  = "Allow ALB to communicate with EC2 instances"
+  from_port                    = 0
+  to_port                      = 65535
+  ip_protocol                  = "tcp"
   referenced_security_group_id = aws_security_group.ec2.id
 
   tags = merge(
@@ -227,12 +227,12 @@ resource "aws_security_group" "database" {
 
 # Database - MySQL/RDS Ingress
 resource "aws_vpc_security_group_ingress_rule" "db_mysql" {
-  count                    = var.enable_db_sg ? 1 : 0
-  security_group_id        = aws_security_group.database[0].id
-  description              = "MySQL access from EC2 instances"
-  from_port                = 3306
-  to_port                  = 3306
-  ip_protocol              = "tcp"
+  count                        = var.enable_db_sg ? 1 : 0
+  security_group_id            = aws_security_group.database[0].id
+  description                  = "MySQL access from EC2 instances"
+  from_port                    = 3306
+  to_port                      = 3306
+  ip_protocol                  = "tcp"
   referenced_security_group_id = aws_security_group.ec2.id
 
   tags = merge(
@@ -245,12 +245,12 @@ resource "aws_vpc_security_group_ingress_rule" "db_mysql" {
 
 # Database - PostgreSQL Ingress
 resource "aws_vpc_security_group_ingress_rule" "db_postgres" {
-  count                    = var.enable_db_sg ? 1 : 0
-  security_group_id        = aws_security_group.database[0].id
-  description              = "PostgreSQL access from EC2 instances"
-  from_port                = 5432
-  to_port                  = 5432
-  ip_protocol              = "tcp"
+  count                        = var.enable_db_sg ? 1 : 0
+  security_group_id            = aws_security_group.database[0].id
+  description                  = "PostgreSQL access from EC2 instances"
+  from_port                    = 5432
+  to_port                      = 5432
+  ip_protocol                  = "tcp"
   referenced_security_group_id = aws_security_group.ec2.id
 
   tags = merge(
@@ -300,12 +300,12 @@ resource "aws_security_group" "cache" {
 
 # Cache - Redis Ingress
 resource "aws_vpc_security_group_ingress_rule" "cache_redis" {
-  count                    = var.enable_cache_sg ? 1 : 0
-  security_group_id        = aws_security_group.cache[0].id
-  description              = "Redis access from EC2 instances"
-  from_port                = 6379
-  to_port                  = 6379
-  ip_protocol              = "tcp"
+  count                        = var.enable_cache_sg ? 1 : 0
+  security_group_id            = aws_security_group.cache[0].id
+  description                  = "Redis access from EC2 instances"
+  from_port                    = 6379
+  to_port                      = 6379
+  ip_protocol                  = "tcp"
   referenced_security_group_id = aws_security_group.ec2.id
 
   tags = merge(
@@ -336,12 +336,12 @@ resource "aws_vpc_security_group_egress_rule" "cache_all" {
 
 # Allow EC2 to communicate with ALB
 resource "aws_vpc_security_group_ingress_rule" "ec2_from_alb" {
-  count                    = var.enable_alb_sg ? 1 : 0
-  security_group_id        = aws_security_group.ec2.id
-  description              = "Allow traffic from ALB to EC2"
-  from_port                = 0
-  to_port                  = 65535
-  ip_protocol              = "tcp"
+  count                        = var.enable_alb_sg ? 1 : 0
+  security_group_id            = aws_security_group.ec2.id
+  description                  = "Allow traffic from ALB to EC2"
+  from_port                    = 0
+  to_port                      = 65535
+  ip_protocol                  = "tcp"
   referenced_security_group_id = aws_security_group.alb[0].id
 
   tags = merge(
